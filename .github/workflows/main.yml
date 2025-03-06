@@ -1,0 +1,17 @@
+name: Restrict Push to outside-branch
+on:
+  push:
+    branches:
+      - '*'  # 全てのブランチに対して適用
+
+jobs:
+  restrict-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check if the push is to outside-branch
+      run: |
+        if [[ "$GITHUB_REF" != "refs/heads/outside-dev" ]]; then
+          echo "You are not allowed to push to this branch.";
+          exit 1;
+        fi
