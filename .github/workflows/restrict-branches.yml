@@ -1,0 +1,14 @@
+name: Restrict Push Access
+on: push
+
+jobs:
+  restrict_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch
+        run: |
+          BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's|refs/heads/||')
+          if [[ "$BRANCH_NAME" != "outside-dev" ]]; then
+            echo "You are not allowed to push to this branch!"
+            exit 1
+          fi
